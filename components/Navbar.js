@@ -1,4 +1,4 @@
-
+import Link from 'next/link'
 
 const Navbar = () => {
     return (
@@ -12,16 +12,27 @@ const Navbar = () => {
                 <div className='collapse navbar-collapse' id='navbarNav'>
                     <ul className='navbar-nav ms-auto'>
                         <li className='nav-item'>
-                            <a className='nav-link active' aria-current='page' href='#'>Home</a>
+                            <Link href = '/'>    
+                                <a className='nav-link active' aria-current='page'>Home</a>
+                            </Link>
                         </li>
+
                         <li className='nav-item'>
-                            <a className='nav-link' href='#'>About</a>
+                            <Link href = '/about'>
+                                <a className='nav-link'>About</a>
+                            </Link>
                         </li>
+
                         <li className='nav-item'>
-                            <a className='nav-link' href='#'>Services</a>
+                            <Link href = '/services'>
+                                <a className='nav-link'>Services</a>
+                            </Link>
                         </li>
+
                         <li className='nav-item'>
-                            <a className='nav-link' href='#'>Contact</a>
+                            <Link href = '/contact'>
+                                <a className='nav-link'>Contact</a>
+                            </Link>
                         </li>
                     </ul>
                 </div>
