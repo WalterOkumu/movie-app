@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 class MovieList extends React.Component {
 
@@ -14,18 +15,20 @@ class MovieList extends React.Component {
         return movies.map(movie => (
             <div className='col-lg-4 col-md-6 mb-4' key = {movie.id}>
                 <div className='card h-100'>
-                    <a href='#'>
-                        <Image 
-                            className='card-img-top' 
-                            src={movie.image} 
-                            alt={movie.name}
-                            width = '700'
-                            height = '400'
-                        />
-                    </a>
+                    <Link href = '/movies/[id]' as = {`/movies/${movie.id}`}>
+                        <a>
+                            <img 
+                                className='card-img-top' 
+                                src={movie.image} 
+                                alt={movie.name}
+                            />
+                        </a>
+                    </Link>
                     <div className='card-body'>
                         <h4 className='card-title'>
-                        <a href='#'>{movie.name}</a>
+                        <Link href = '/movies/[id]' as = {`/movies/${movie.id}`}>
+                            <a>{movie.title}</a>
+                        </Link>
                         </h4>
                         <p className='card-text'>{this.shorten(movie.description, 100)}</p>
                     </div>

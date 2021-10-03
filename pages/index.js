@@ -9,8 +9,9 @@ import MovieList from '../components/movieList'
 import { getMovies } from '../components/actions'
 
 const Home = (props) => {
+  const images = props.images
   return (
-    <div className = ''>
+    <div>
       <div className = 'home-page'>
         <div className='container'>
           <div className='row'>
@@ -19,10 +20,10 @@ const Home = (props) => {
             </div>
 
             <div className='col-lg-9'>
-              <Carousel />
+              <Carousel images = {images}/>
 
               <div className='row'>
-                <MovieList movies = {props.movies || []} />
+                <MovieList movies = { props.movies || [] } />
               </div>
             </div>
           </div>
@@ -35,8 +36,16 @@ const Home = (props) => {
 Home.getInitialProps = async () => {
   const movies = await getMovies()
 
+  const images = movies.map(movie => ({
+    id: `image-${movie.id}`,
+    url: movie.cover,
+    title: movie.title
+    })
+  )
+
   return {
-    movies
+    movies,
+    images
   }
 }
 

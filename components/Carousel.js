@@ -1,33 +1,57 @@
+/* eslint-disable @next/next/no-img-element */
+import Image from 'next/image'
 
-const Carousel = () => {
-    return (
-        <div id="carouselExampleIndicators" className="carousel slide my-4" data-ride="carousel">
-          <ol className="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-          </ol>
-          <div className="carousel-inner" role="listbox">
-            <div className="carousel-item active">
-              <img className="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide" />
+const Carousel = (props) => {
+  const { images } = props
+
+  return (
+    <div id='carouselHomepage' className='carousel slide' data-bs-ride='carousel'>
+      <div className='carousel-indicators'>
+        {
+          images.map((image, index) => (
+            <button 
+              key = {index} 
+              type='button' 
+              data-bs-target='#carouselHomepage' 
+              data-bs-slide-to={index}
+              className={index === 0 ? 'active' : ''}
+            />
+          ))
+        }
+      </div>
+
+      <div className='carousel-inner'>
+        {
+          images.map((image, index) => (
+            <div key = {index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+              <img 
+                src= {image.url} 
+                className='d-block w-100' 
+                alt = {image.name}
+              />
             </div>
-            <div className="carousel-item">
-              <img className="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide" />
-            </div>
-            <div className="carousel-item">
-              <img className="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide" />
-            </div>
-          </div>
-          <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="sr-only">Previous</span>
-          </a>
-          <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            <span className="sr-only">Next</span>
-          </a>
-        </div>
-    )
+          ))
+        }
+      </div>
+
+      <button className='carousel-control-prev' type='button' data-bs-target='#carouselHomepage' data-bs-slide='prev'>
+        <span className='carousel-control-prev-icon' aria-hidden='true'></span>
+        <span className='visually-hidden'>Previous</span>
+      </button>
+
+      <button className='carousel-control-next' type='button' data-bs-target='#carouselHomepage' data-bs-slide='next'>
+        <span className='carousel-control-next-icon' aria-hidden='true'></span>
+        <span className='visually-hidden'>Next</span>
+      </button>
+
+      <style jsx>{`
+          .carousel-item {
+            max-height: 400px;
+            }
+        `}
+      </style>
+    </div>
+  )
 }
 
 export default Carousel
