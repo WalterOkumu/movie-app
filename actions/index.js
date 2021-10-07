@@ -6,6 +6,11 @@ const MOVIE_DATA = []
 
 const CATEGORY_DATA = [
     {
+        id: '0',
+        name: 'All'
+    },
+    
+    {
         id: '1',
         name: 'Drama'
     },
@@ -54,6 +59,12 @@ export const createMovie = (movie) => {
         .then(res => res.data)
 }
 
+export const updateMovie = (movie) => {
+
+    return axios.patch(`${BASE_URL}/api/movies/${movie.id}`, movie)
+        .then(res => res.data)
+}
+
 export const getCategories = () => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -63,23 +74,14 @@ export const getCategories = () => {
     })
 }
 
-export const getCategoryById = (id) => {
-
-    return new Promise((resolve, reject) => {
-        const movieIndex = CATEGORY_DATA.findIndex((movie) => {
-            return movie.id === id
-        })
-
-        const movie = CATEGORY_DATA[movieIndex]
-
-        setTimeout(() => {
-            resolve(category)
-            reject('Movie not found!')
-        }, 50)
-    })
-}
-
 export const deleteMovie = (id) => {
     return axios.delete(`${BASE_URL}/api/movies/${id}`)
         .then(res => res.data)
+}
+
+export const getPosts = () => {
+    return axios.get(`${BASE_URL}/api/posts`)
+        .then((res) => {
+            return res.data
+        })
 }

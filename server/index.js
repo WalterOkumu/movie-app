@@ -48,9 +48,24 @@ app.prepare().then(() => {
 
     server.patch('/api/movies/:id', (req, res) => {
         const { id } = req.params
-        return res.json({
-            message: `Updating post of id: ${id}`
-        })  
+
+        const movie = req.body
+
+        const movieIndex = moviesData.findIndex(movie => movie.id === id)
+
+        moviesData[movieIndex] = movie
+        
+        const pathToFile = path.join(__dirname, filePath)
+
+        const stringifiedData = JSON.stringify(moviesData, null, 2)
+
+        fs.writeFile(pathToFile, stringifiedData, (err) => {
+            if(err) {
+                return res.status(422).send(err)
+            }
+
+            return res.json('Movie has been successfully updated!')
+        }) 
     })
 
     server.delete('/api/movies/:id', (req, res) => {
@@ -74,13 +89,17 @@ app.prepare().then(() => {
     })
 
 
-    server.get('*', (req, res) => {
-        return handle(req, res)
-    })
+    // server.get('*', (req, res) => {
+    //     return handle(req, res)
+    // })
+
+    // server.post('*', (req, res) => {
+    //     return handle(req, res)
+    // })
 
     const PORT = process.env.PORT || 3000
 
-    server.listen(PORT, (err) => {
+    server.use(handle).listen(PORT, (err) => {
         if (err) throw err
         console.log('> Ready on port ' + PORT)
     })

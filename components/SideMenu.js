@@ -21,16 +21,17 @@ const SideMenu = (props) => {
     return (
         <div>
             <Modal ref = {elem => modal = elem} hasSubmit = {false} >
-                <CreateMovieForm handleCreateMovie = {handleCreateMovie} />
+                <CreateMovieForm handleFormSubmit = {handleCreateMovie} />
             </Modal>
             <h1 className='my-4'>{props.appName}</h1>
             <ul className='list-group'>
                 {
                     categories.map((category, index) => 
                         <a
+                            onClick = {() => props.changeCategory(category.name)}
                             key = {index}
                             href = '#'
-                            className = 'list-group-item'
+                            className = {`list-group-item ${props.activeCategory === category.name ? 'active' : ''}`}
                         >
                             {category.name}
                         </a>
