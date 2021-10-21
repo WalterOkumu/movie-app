@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-
 //import Components
 import SideMenu from '../components/SideMenu'
 import Carousel from '../components/Carousel'
 import MediaList from '../components/MediaList'
 
 //import data
-import { getMovieGenres, getTVShowGenres, getMedia, getPopularMovies, getPopularTVShows } from '../actions'
+import { getMovieGenres, getPopularMovies } from '../actions'
 
-const Home = (props) => {
+const Movies = (props) => {
 
-  const {combinedMedia, movieGenres, tvShowGenres, popularMovies, popularTVShows } = props
+  const { movieGenres, popularMovies } = props
 
   const [filter, setFilter] = useState('All')
 
@@ -33,7 +32,7 @@ const Home = (props) => {
     <div>
       <div className = 'home-page'>
         <div className='container'>
-          <Carousel media = {combinedMedia}/>
+          <Carousel media = {popularMovies}/>
           <div className='row'>
             <div className='col-lg-3'>
               <SideMenu
@@ -45,10 +44,10 @@ const Home = (props) => {
             </div>
 
             <div className='col-lg-9'>
-              <h1>Displaying {filter} Movies and TV Shows</h1>
+              <h1>Displaying {filter} Movies</h1>
               <div className='row'>
                 <MediaList
-                  media = { filterMovies(combinedMedia) || [] }
+                  media = { filterMovies(popularMovies) || [] }
                   genres = {movieGenres}
                 />
               </div>
@@ -60,17 +59,11 @@ const Home = (props) => {
   )
 }
 
-Home.getInitialProps = async () => {
-
-  const combinedMedia = await getMedia()
+Movies.getInitialProps = async () => {
 
   const movieGenres = await getMovieGenres()
 
-  const tvShowGenres = await getTVShowGenres()
-
   const popularMovies = await getPopularMovies(1)
-
-  const popularTVShows = await getPopularTVShows(1)
 
   let temp = {
     id: 1,
@@ -78,15 +71,10 @@ Home.getInitialProps = async () => {
   }
 
   movieGenres.unshift(temp)
-  tvShowGenres.unshift(temp)
 
   return {
-    combinedMedia,
     movieGenres,
-    popularMovies,
-    popularTVShows,
-    tvShowGenres
+    popularMovies
   }
 }
-
-export default Home
+export default Movies

@@ -5,7 +5,7 @@ module.exports = {
     includePaths: [path.join(__dirname, 'styles')],
   },
 
-  env: {
-    API_KEY: process.env.API_KEY,
+  images: {
+    domains: ['image.tmdb.org'],
   },
 }

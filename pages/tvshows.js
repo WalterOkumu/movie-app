@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-
 //import Components
 import SideMenu from '../components/SideMenu'
 import Carousel from '../components/Carousel'
 import MediaList from '../components/MediaList'
 
 //import data
-import { getMovieGenres, getTVShowGenres, getMedia, getPopularMovies, getPopularTVShows } from '../actions'
+import { getPopularTVShows, getTVShowGenres } from '../actions'
 
-const Home = (props) => {
+const TVShows = (props) => {
 
-  const {combinedMedia, movieGenres, tvShowGenres, popularMovies, popularTVShows } = props
+  const { tvShowGenres, popularTVShows } = props
 
   const [filter, setFilter] = useState('All')
 
@@ -33,23 +32,23 @@ const Home = (props) => {
     <div>
       <div className = 'home-page'>
         <div className='container'>
-          <Carousel media = {combinedMedia}/>
+          <Carousel media = {popularTVShows}/>
           <div className='row'>
             <div className='col-lg-3'>
               <SideMenu
                 mediaType = ''
-                genres = {movieGenres}
+                genres = {popularTVShows}
                 changeGenre = {changeGenre}
                 activeGenre = {filter}
               />
             </div>
 
             <div className='col-lg-9'>
-              <h1>Displaying {filter} Movies and TV Shows</h1>
+              <h1>Displaying {filter} TV Shows</h1>
               <div className='row'>
                 <MediaList
-                  media = { filterMovies(combinedMedia) || [] }
-                  genres = {movieGenres}
+                  media = { filterMovies(popularTVShows) || [] }
+                  genres = {tvShowGenres}
                 />
               </div>
             </div>
@@ -60,15 +59,9 @@ const Home = (props) => {
   )
 }
 
-Home.getInitialProps = async () => {
-
-  const combinedMedia = await getMedia()
-
-  const movieGenres = await getMovieGenres()
+TVShows.getInitialProps = async () => {
 
   const tvShowGenres = await getTVShowGenres()
-
-  const popularMovies = await getPopularMovies(1)
 
   const popularTVShows = await getPopularTVShows(1)
 
@@ -77,16 +70,11 @@ Home.getInitialProps = async () => {
     name: 'All'
   }
 
-  movieGenres.unshift(temp)
   tvShowGenres.unshift(temp)
 
   return {
-    combinedMedia,
-    movieGenres,
-    popularMovies,
-    popularTVShows,
-    tvShowGenres
+    tvShowGenres,
+    popularTVShows
   }
 }
-
-export default Home
+export default TVShows

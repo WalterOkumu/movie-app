@@ -11,13 +11,46 @@ export const getMedia = () => {
                 .then(response => response.data)
                 .then(response => response.results)
                 .catch(error => console.log(error))
-
 }
 
-export const getGenres = () => {
-    return axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`)
+export const getMovieGenres = () => {
+    return axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`)
                 .then(response => response.data)
                 .then(response => response.genres)
                 .catch(error => console.log(error))
+}
 
+export const getTVShowGenres = () => {
+    return axios.get(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=en-US`)
+                .then(response => response.data)
+                .then(response => response.genres)
+                .catch(error => console.log(error))
+}
+
+export const getPopularMovies = (pageNumber) => {
+    return axios.get(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&${pageNumber}`)
+                .then(response => response.data)
+                .then(response => response.results)
+                .catch(error => console.log(error))
+}
+
+export const getPopularTVShows = (pageNumber) => {
+    return axios.get(`${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&${pageNumber}`)
+                .then(response => response.data)
+                .then(response => response.results)
+                .catch(error => console.log(error))
+}
+
+export const getMovieById = (id) => {
+    return axios.get(`${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=en-US`)
+                .then(response => response.data)
+                .then(response => response.results)
+                .catch(error => console.log(error))
+}
+
+export const getTVShowById = (id) => {
+    return axios.get(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=en-US`)
+                .then(response => response.data)
+                .then(response => response.results)
+                .catch(error => console.log(error))
 }
