@@ -1,87 +1,23 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:3000'
+export const API_KEY = process.env.NEXT_PUBLIC_API_KEY
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+export const BASE_URL_TRENDING = process.env.NEXT_PUBLIC_BASE_URL_TRENDING
+export const BASE_URL_IMAGE = process.env.NEXT_PUBLIC_BASE_URL_IMAGE
+export const BASE_URL_MOVIE = process.env.NEXT_PUBLIC_BASE_URL_MOVIE
 
-const MOVIE_DATA = []
+export const getMedia = () => {
+    return axios.get(`${BASE_URL_TRENDING}/all/day?api_key=${API_KEY}`)
+                .then(response => response.data)
+                .then(response => response.results)
+                .catch(error => console.log(error))
 
-const CATEGORY_DATA = [
-    {
-        id: '0',
-        name: 'All'
-    },
-    
-    {
-        id: '1',
-        name: 'Drama'
-    },
-
-    {
-        id: '2',
-        name: 'Action'
-    },
-
-    {
-        id: '3',
-        name: 'Adventure'
-    },
-
-    {
-        id: '4',
-        name: 'Historical'
-    },
-]
-
-export const getMovies = () => {
-
-    // return new Promise((resolve, reject) => {
-    //     setTimeout(() => {
-    //         resolve(MOVIE_DATA)
-    //         reject('Cannot fetch movie data!')
-    //     }, 50)
-    // })
-
-    return axios.get(`${BASE_URL}/api/movies`)
-        .then((res) => {
-            return res.data
-        })
 }
 
-export const getMovieById = (id) => {
+export const getGenres = () => {
+    return axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`)
+                .then(response => response.data)
+                .then(response => response.genres)
+                .catch(error => console.log(error))
 
-    return axios.get(`${BASE_URL}/api/movies/${id}`)
-        .then(res => res.data)
-}
-
-export const createMovie = (movie) => {
-    movie.id = Math.random().toString(36).substr(2, 5)
-
-    return axios.post(`${BASE_URL}/api/movies`, movie)
-        .then(res => res.data)
-}
-
-export const updateMovie = (movie) => {
-
-    return axios.patch(`${BASE_URL}/api/movies/${movie.id}`, movie)
-        .then(res => res.data)
-}
-
-export const getCategories = () => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(CATEGORY_DATA)
-            reject('Cannot fetch movie data!')
-        }, 50)
-    })
-}
-
-export const deleteMovie = (id) => {
-    return axios.delete(`${BASE_URL}/api/movies/${id}`)
-        .then(res => res.data)
-}
-
-export const getPosts = () => {
-    return axios.get(`${BASE_URL}/api/posts`)
-        .then((res) => {
-            return res.data
-        })
 }

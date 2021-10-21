@@ -30,7 +30,7 @@ app.prepare().then(() => {
 
     server.post('/api/movies', (req, res) => {
         const movie = req.body
-        
+
         moviesData.push(movie)
 
         const pathToFile = path.join(__dirname, filePath)
@@ -54,7 +54,7 @@ app.prepare().then(() => {
         const movieIndex = moviesData.findIndex(movie => movie.id === id)
 
         moviesData[movieIndex] = movie
-        
+
         const pathToFile = path.join(__dirname, filePath)
 
         const stringifiedData = JSON.stringify(moviesData, null, 2)
@@ -65,7 +65,7 @@ app.prepare().then(() => {
             }
 
             return res.json('Movie has been successfully updated!')
-        }) 
+        })
     })
 
     server.delete('/api/movies/:id', (req, res) => {
@@ -74,7 +74,7 @@ app.prepare().then(() => {
         const movieIndex = moviesData.findIndex(movie => movie.id === id)
 
         moviesData.splice(movieIndex, 1)
-        
+
         const pathToFile = path.join(__dirname, filePath)
 
         const stringifiedData = JSON.stringify(moviesData, null, 2)

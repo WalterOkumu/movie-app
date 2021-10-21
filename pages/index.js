@@ -3,17 +3,19 @@ import React, { useState } from 'react'
 //import Components
 import SideMenu from '../components/SideMenu'
 import Carousel from '../components/Carousel'
-import MovieList from '../components/movieList'
+import MediaList from '../components/MediaList'
 
 //import data
-import { getMovies, getCategories } from '../actions'
+import { getGenres, getMedia } from '../actions'
 
 const Home = (props) => {
 
+  const {combinedMedia, genres} = props
+
   const [filter, setFilter] = useState('All')
-  
-  const changeCategory = (category) => {
-    setFilter(category)
+
+  const changeGenre = (genre) => {
+    setFilter(genre)
   }
 
   const filterMovies = (movies) => {
@@ -31,48 +33,62 @@ const Home = (props) => {
     <div>
       <div className = 'home-page'>
         <div className='container'>
+          <Carousel media = {combinedMedia}/>
           <div className='row'>
             <div className='col-lg-3'>
-              <SideMenu 
-                appName = {'Movie DB'} 
-                categories = {props.categories}
-                changeCategory = {changeCategory}
-                activeCategory = {filter}
+              <SideMenu
+                genres = {genres}
+                changeGenre = {changeGenre}
+                activeGenre = {filter}
               />
             </div>
 
             <div className='col-lg-9'>
-              <Carousel images = {props.images}/>
-
-              <h1>Diplaying {filter} Movies</h1>
-
+              <h1>Displaying {filter} Movies and TV Shows</h1>
               <div className='row'>
-                <MovieList movies = { filterMovies(props.movies) || [] } />
+                <MediaList media = { filterMovies(combinedMedia) || [] } />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )   
+  )
 }
 
 Home.getInitialProps = async () => {
-  const movies = await getMovies()
 
-  const categories = await getCategories()
+  // const movies = await getMovies()
 
-  const images = movies.map(movie => ({
-    id: `image-${movie.id}`,
-    url: movie.cover,
-    title: movie.title
-    })
-  )
+  // const categories = await getCategories()
+
+  // const images = movies.map(movie => ({
+  //   id: `image-${movie.id}`,
+  //   url: movie.cover,
+  //   title: movie.title
+  //   })
+  // )
+
+  // return {
+  //   movies,
+  //   images,
+  //   categories
+  // }
+
+  const combinedMedia = await getMedia()
+
+  const genres = await getGenres()
+
+  let temp = {
+    id: 1,
+    name: 'All'
+  }
+
+  genres.unshift(temp)
 
   return {
-    movies,
-    images,
-    categories
+    combinedMedia,
+    genres
   }
 }
 

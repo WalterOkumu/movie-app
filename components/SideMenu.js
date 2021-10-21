@@ -4,36 +4,20 @@ import CreateMovieForm from './CreateMovieForm'
 import { createMovie } from '../actions'
 
 const SideMenu = (props) => {
-    const {categories} = props
+    const {genres} = props
 
-    const router = useRouter()
-
-    let modal = null
-
-    const handleCreateMovie = (movie) => {
-        createMovie(movie).then((movies) => {
-            console.log(JSON.stringify(movies))
-            modal.closeModal()
-            router.push('/')
-        })
-    }
-    
     return (
         <div>
-            <Modal ref = {elem => modal = elem} hasSubmit = {false} >
-                <CreateMovieForm handleFormSubmit = {handleCreateMovie} />
-            </Modal>
-            <h1 className='my-4'>{props.appName}</h1>
             <ul className='list-group'>
                 {
-                    categories.map((category, index) => 
+                    genres.map((genre, index) =>
                         <a
-                            onClick = {() => props.changeCategory(category.name)}
+                            onClick = {() => props.changeCategory(genre.name)}
                             key = {index}
                             href = '#'
-                            className = {`list-group-item ${props.activeCategory === category.name ? 'active' : ''}`}
+                            className = {`list-group-item ${props.activeGenre === genre.name ? 'active' : ''}`}
                         >
-                            {category.name}
+                            {genre.id} - {genre.name}
                         </a>
                     )
                 }

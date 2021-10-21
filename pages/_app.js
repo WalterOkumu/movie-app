@@ -1,42 +1,40 @@
 import App from 'next/app'
+import { useEffect } from "react"
 import Head from 'next/head'
 import Script from 'next/script'
 
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-
+import 'bootstrap/dist/css/bootstrap.css'
 import '../styles/index.scss'
 
-class MovieApp extends App {
+const MovieApp = ({ Component, pageProps }) => {
 
-  //TODO: execute here getInitialProps and pass data to children
+  useEffect(() => {
+    import("bootstrap/dist/js/bootstrap");
+  }, [])
 
-  static async getInitialProps(appContext) {
-    const appProps = await App.getInitialProps(appContext)
+  return (
+    <div>
+      <Head>
+        <title>Home</title>
 
-    return { ...appProps }
-  }
-  render(){
-    const { Component, pageProps } = this.props
+      </Head>
 
-    return (
-      <div>
-        <Head>
-          <title>Home</title>
-          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous" />
-        </Head>
+      <Navbar />
 
-        <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></Script>
-
-        <Navbar />
-
-        <div className = 'base-page'>
-          <Component {...pageProps} />
-        </div>
-        <Footer />
+      <div className = 'base-page'>
+        <Component {...pageProps} />
       </div>
-    )
-  }
+      <Footer />
+    </div>
+  )
+}
+
+MovieApp.getInitialProps = async (appContext) => {
+  const appProps = await App.getInitialProps(appContext)
+
+  return { ...appProps }
 }
 
 export default MovieApp

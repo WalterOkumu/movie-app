@@ -1,18 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
+import { BASE_URL_IMAGE } from '../actions'
 
 const Carousel = (props) => {
-  const { images } = props
+  const { media } = props
 
   return (
-    <div id='carouselHomepage' className='carousel slide' data-bs-ride='carousel'>
+    <div id='carouselHomepage' className='carousel slide ' data-bs-ride='carousel'>
       <div className='carousel-indicators'>
         {
-          images.map((image, index) => (
-            <button 
-              key = {index} 
-              type='button' 
-              data-bs-target='#carouselHomepage' 
+          media.map((mediaItem, index) => (
+            <button
+              key = {index}
+              type='button'
+              data-bs-target='#carouselHomepage'
               data-bs-slide-to={index}
               className={index === 0 ? 'active' : ''}
             />
@@ -22,13 +23,17 @@ const Carousel = (props) => {
 
       <div className='carousel-inner'>
         {
-          images.map((image, index) => (
+          media.map((mediaItem, index) => (
             <div key = {index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
-              <img 
-                src= {image.url} 
-                className='d-block w-100' 
-                alt = {image.name}
+              <img
+                src= {`${BASE_URL_IMAGE}/${mediaItem.backdrop_path}`}
+                className='d-block w-100'
+                alt = {mediaItem.name}
               />
+              <div className="carousel-caption d-none d-md-block">
+                <h3>{mediaItem.original_title || mediaItem.name}</h3>
+                <p>{mediaItem.overview}</p>
+              </div>
             </div>
           ))
         }
@@ -46,7 +51,7 @@ const Carousel = (props) => {
 
       <style jsx>{`
           .carousel-item {
-            max-height: 400px;
+            max-height: 700px;
             }
         `}
       </style>
