@@ -12,21 +12,36 @@ const Movies = (props) => {
 
   const { movieGenres, popularMovies } = props
 
-  const [filter, setFilter] = useState('All')
+  const [filter, setFilter] = useState(1)
 
   const changeGenre = (genre) => {
     setFilter(genre)
   }
 
-  const filterMovies = (movies) => {
+  const getGenreName = (genreId) => {
+    let genreName = ''
 
-    if(filter === 'All') {
-      return movies
-    }
-
-    return movies.filter((movie) => {
-      return movie.genre && movie.genre.includes(filter)
+    movieGenres.forEach((genreItem, key) => {
+      if(genreItem.id === genreId) {
+        genreName = genreItem.name
+      }
     })
+    return genreName
+  }
+
+  const filterMedia = (mediaList) => {
+    let dataList = []
+
+    if(filter === 1) {
+      return mediaList
+    } else {
+      mediaList.forEach(mediaItem => {
+        if (mediaItem.genre_ids.includes(filter)) {
+          dataList.push(mediaItem)
+        }
+      });
+    }
+    return dataList
   }
 
   return (
@@ -48,10 +63,10 @@ const Movies = (props) => {
             </div>
 
             <div className='col-lg-9'>
-              <h1>Displaying {filter} Movies</h1>
+              <h1>Displaying {getGenreName(filter)} Movies</h1>
               <div className='row'>
                 <MediaList
-                  media = { filterMovies(popularMovies) || [] }
+                  media = { filterMedia(popularMovies) || [] }
                   genres = {movieGenres}
                   parent = 'moviesComponent'
                 />

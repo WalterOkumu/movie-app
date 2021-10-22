@@ -80,7 +80,7 @@ const MovieDetails = (props) => {
     if (media.videos.results.length === 0) {
       return 'https://www.youtube.com/watch?v=O9ejXv5Er6M'
     } else {
-      return `${media.videos.results[0].key}`
+      return `${BASE_URL_TRAILER}${media.videos.results[0].key}`
     }
   }
 
@@ -97,7 +97,7 @@ const MovieDetails = (props) => {
               alt = {movie.title}
               width = '400px'
               height = '550px'
-              className = 'movie-poster'
+              className = 'media-poster'
             />
           </div>
           <div className='col-lg-9'>

@@ -67,3 +67,10 @@ export const getSimilarTVShowById = (id) => {
                 .then(response => response.results)
                 .catch(error => console.log(error))
 }
+
+export const searchMedia = (searchQuery, pageNumber) => {
+    return axios.get(`${BASE_URL}/search/multi?api_key=${API_KEY}&language=en-US&page=${pageNumber}&include_adult=false&query=${searchQuery}`)
+                .then(response => response.data)
+                .catch(error => console.log(error))
+
+}

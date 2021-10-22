@@ -12,21 +12,38 @@ const Home = (props) => {
 
   const {combinedMedia, movieGenres, tvShowGenres, popularMovies, popularTVShows } = props
 
-  const [filter, setFilter] = useState('All')
+  const [filter, setFilter] = useState(1)
+
+  let filterHeader = 'All'
+
+  const getGenreName = (genreId) => {
+    let genreName = ''
+
+    movieGenres.forEach((genreItem, key) => {
+      if(genreItem.id === genreId) {
+        genreName = genreItem.name
+      }
+    })
+    return genreName
+  }
 
   const changeGenre = (genre) => {
     setFilter(genre)
   }
 
-  const filterMovies = (movies) => {
+  const filterMedia = (mediaList) => {
+    let dataList = []
 
-    if(filter === 'All') {
-      return movies
+    if(filter === 1) {
+      return mediaList
+    } else {
+      mediaList.forEach(mediaItem => {
+        if (mediaItem.genre_ids.includes(filter)) {
+          dataList.push(mediaItem)
+        }
+      });
     }
-
-    return movies.filter((movie) => {
-      return movie.genre && movie.genre.includes(filter)
-    })
+    return dataList
   }
 
   return (
@@ -37,7 +54,7 @@ const Home = (props) => {
       <div className = 'home-page'>
         <div className='container'>
           <Carousel media = {combinedMedia}/>
-          <div className='row'>
+          <div className='row lower-container'>
             <div className='col-lg-3'>
               <SideMenu
                 mediaType = ''
@@ -48,10 +65,10 @@ const Home = (props) => {
             </div>
 
             <div className='col-lg-9'>
-              <h1>Displaying {filter} Movies and TV Shows</h1>
+              <h1>Displaying {getGenreName(filter)} Movies &amp; TV Shows</h1>
               <div className='row'>
                 <MediaList
-                  media = { filterMovies(combinedMedia) || [] }
+                  media = { filterMedia(combinedMedia) || [] }
                   genres = {movieGenres}
                   parent = 'homeComponent'
                 />

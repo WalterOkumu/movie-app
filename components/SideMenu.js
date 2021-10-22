@@ -12,12 +12,12 @@ const SideMenu = (props) => {
                 {
                     genres.map((genre, index) =>
                         <a
-                            onClick = {() => props.changeCategory(genre.name)}
+                            onClick = {() => props.changeGenre(genre.id)}
                             key = {index}
-                            href = '#'
-                            className = {`list-group-item ${props.activeGenre === genre.name ? 'active' : ''}`}
+
+                            className = {`list-group-item ${props.activeGenre === genre.id ? 'active' : ''}`}
                         >
-                            {genre.id} - {genre.name}
+                            {genre.name}
                         </a>
                     )
                 }

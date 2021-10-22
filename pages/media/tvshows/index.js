@@ -12,21 +12,36 @@ const TVShows = (props) => {
 
   const { tvShowGenres, popularTVShows } = props
 
-  const [filter, setFilter] = useState('All')
+  const [filter, setFilter] = useState(1)
 
   const changeGenre = (genre) => {
     setFilter(genre)
   }
 
-  const filterMovies = (movies) => {
+  const getGenreName = (genreId) => {
+    let genreName = ''
 
-    if(filter === 'All') {
-      return movies
-    }
-
-    return movies.filter((movie) => {
-      return movie.genre && movie.genre.includes(filter)
+    tvShowGenres.forEach((genreItem, key) => {
+      if(genreItem.id === genreId) {
+        genreName = genreItem.name
+      }
     })
+    return genreName
+  }
+
+  const filterMedia = (mediaList) => {
+    let dataList = []
+
+    if(filter === 1) {
+      return mediaList
+    } else {
+      mediaList.forEach(mediaItem => {
+        if (mediaItem.genre_ids.includes(filter)) {
+          dataList.push(mediaItem)
+        }
+      });
+    }
+    return dataList
   }
 
   return (
@@ -41,17 +56,17 @@ const TVShows = (props) => {
             <div className='col-lg-3'>
               <SideMenu
                 mediaType = ''
-                genres = {popularTVShows}
+                genres = {tvShowGenres}
                 changeGenre = {changeGenre}
                 activeGenre = {filter}
               />
             </div>
 
             <div className='col-lg-9'>
-              <h1>Displaying {filter} TV Shows</h1>
+              <h1>Displaying {getGenreName(filter)} TV Shows</h1>
               <div className='row'>
                 <MediaList
-                  media = { filterMovies(popularTVShows) || [] }
+                  media = { filterMedia(popularTVShows) || [] }
                   genres = {tvShowGenres}
                   parent = 'tvshowsComponent'
                 />

@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/link-passhref */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { BASE_URL_IMAGE } from '../actions'
 
 const MediaList = (props) => {
@@ -39,12 +37,14 @@ const MediaList = (props) => {
         return genre.trim()
     }
 
-    const identifyMedia = (parent) => {
-        if (parent === 'homeComponent') {
+    const identifyMedia = (parent, media) => {
+        if (parent === 'homeComponent' && media.media_type === 'movie') {
             return '/media/movies'
+        } else if (parent === 'homeComponent' && media.media_type === 'tv') {
+            return '/media/tvshows'
         } else if (parent === 'moviesComponent' || parent === 'movieDetailsComponent') {
             return '/media/movies'
-        } else if (parent === 'tvshowsComponent') {
+        } else if (parent === 'tvshowsComponent'|| parent === 'tvShowsDetailsComponent') {
             return '/media/tvshows'
         }
     }
@@ -53,7 +53,7 @@ const MediaList = (props) => {
         return media.map(mediaItem => (
             <div key = {mediaItem.id} className='col-lg-4 col-md-6 mb-4'>
                 <div className='card h-100'>
-                    <a href = {`${identifyMedia(parent)}/${mediaItem.id}`} >
+                    <a href = {`${identifyMedia(parent, mediaItem)}/${mediaItem.id}`} >
                         <img
                             className='card-img-top'
                             src={`${BASE_URL_IMAGE}/${mediaItem.poster_path}`}
@@ -61,7 +61,7 @@ const MediaList = (props) => {
                         />
                     </a>
                     <div className='card-body'>
-                        <a href = {`${identifyMedia(parent)}/${mediaItem.id}`} >
+                        <a href = {`${identifyMedia(parent, mediaItem)}/${mediaItem.id}`} >
                         <h4 className='card-title'>
                             {mediaItem.title || mediaItem.name}
                         </h4>
@@ -73,6 +73,11 @@ const MediaList = (props) => {
                         <h6>
                             <i>
                                 {showGenre(mediaItem.genre_ids)}
+                            </i>
+                        </h6>
+                        <h6>
+                            <i>
+                                {mediaItem.media_type}
                             </i>
                         </h6>
                         <p className='card-text'>{shorten(mediaItem.overview, 100)}</p>

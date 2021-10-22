@@ -13,8 +13,6 @@ const TVShowDetails = (props) => {
 
   const { id, tvShow, genreList, similarTVShows } = props
 
-  console.log(tvShow)
-
   const showGenre = (tvShowGenreList) => {
     let temp = []
     let genre = ''
@@ -82,7 +80,7 @@ const TVShowDetails = (props) => {
     if (media.videos.results.length === 0) {
       return 'https://www.youtube.com/watch?v=O9ejXv5Er6M'
     } else {
-      return `${media.videos.results[0].key}`
+      return `${BASE_URL_TRAILER}${media.videos.results[0].key}`
     }
   }
 
@@ -99,7 +97,7 @@ const TVShowDetails = (props) => {
               alt = {tvShow.name}
               width = '400px'
               height = '550px'
-              className = 'movie-poster'
+              className = 'media-poster'
             />
           </div>
           <div className='col-lg-9'>
@@ -117,14 +115,14 @@ const TVShowDetails = (props) => {
               <h3>Overview</h3>
               <p>{tvShow.overview}</p>
               <hr></hr>
-              <button type='button' className = 'btn btn-success'>
+              {/* <button type='button' className = 'btn btn-success'>
                 <a rel = 'noreferrer' target = '_blank' href = {`${BASE_URL_MOVIE}${tvShow.id}`}>
                   Watch Here
                 </a>
-              </button>
+              </button> */}
               <b>
                 <i>
-                  Make sure to check your pop-up blocker!!
+                  TV Shows Link coming soon!!!
                 </i>
               </b>
               <hr></hr>
@@ -133,7 +131,7 @@ const TVShowDetails = (props) => {
               <h3>Trailer</h3>
               <div>
                 <ReactPlayer
-                  url = {manageTrailer(tvShows)}
+                  url = {manageTrailer(tvShow)}
                   width = '100%'
                   config={{
                     youtube: {
