@@ -28,9 +28,13 @@ const MediaList = (props) => {
             return element !== undefined;
         })
 
-        temp.map(t => (
-            genre = genre + ' ' + t.name
-        ))
+        temp.map((t, index) => {
+            if (index === 0) {
+              genre = t.name
+            } else {
+              genre = genre + ', ' + t.name
+            }
+          })
 
         return genre.trim()
     }

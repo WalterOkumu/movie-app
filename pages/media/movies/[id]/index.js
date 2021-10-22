@@ -1,6 +1,10 @@
 import Image from 'next/image'
-import Link from 'next/link'
+import Head from 'next/head'
 import ReactPlayer from 'react-player'
+import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
+import Typography from '@mui/material/Typography'
+import { format } from 'date-fns'
 import MediaList from '../../../../components/MediaList'
 import { getMovieById, getMovieGenres, getSimilarMovieById } from '../../../../actions'
 import { BASE_URL_IMAGE, BASE_URL_TRAILER, BASE_URL_MOVIE } from '../../../../actions'
@@ -8,28 +12,83 @@ import { BASE_URL_IMAGE, BASE_URL_TRAILER, BASE_URL_MOVIE } from '../../../../ac
 const MovieDetails = (props) => {
 
   const { id, movie, genreList, similarMovies } = props
-  console.log(movie)
+
   const showGenre = (movieGenres) => {
     let temp = []
     let genre = ''
 
-    for(let i = 0; i <= movieGenres.length; i++) {
-        temp[i] = genreList.find( ({ id }) => id === movieGenres[i])
+    for(let i = 0; i <= movieGenres.length - 1; i++) {
+        temp[i] = genreList.find( ({ id }) => id === movieGenres[i].id)
     }
 
     temp = temp.filter(function( element ) {
         return element !== undefined;
     })
 
-    temp.map(t => (
-        genre = genre + ' ' + t.name
-    ))
+    temp.map((t, index) => {
+      if (index === 0) {
+        genre = t.name
+      } else {
+        genre = genre + ', ' + t.name
+      }
+    })
 
-    return genre.trim()
+    return genre
+  }
+
+  const formatDate = (movieDate, dateFormat) => {
+    return format(new Date(movieDate), dateFormat)
+  }
+
+  const formatTime = (num) => {
+    let hours = Math.floor(num / 60)
+    let minutes = num % 60
+
+    return (hours + 'h ' + minutes + 'min')
+  }
+
+  const pieChartProgress = (value) => {
+    return (
+      <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+        <CircularProgress
+            variant = 'determinate'
+            value = {value}
+            color = 'success'
+            size = '5rem'
+        />
+        <Box
+            sx={{
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                position: 'absolute',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+        >
+            <Typography variant='h6' component='div' color='amber'>
+                <strong>{`${Math.round(value)}%`}</strong>
+            </Typography>
+        </Box>
+    </Box>
+    )
+  }
+
+  const manageTrailer = (media) => {
+    if (media.videos.results.length === 0) {
+      return 'https://www.youtube.com/watch?v=O9ejXv5Er6M'
+    } else {
+      return `${media.videos.results[0].key}`
+    }
   }
 
   return (
     <div className = 'container'>
+      <Head>
+        <title>{movie.title}</title>
+      </Head>
       <div className = 'row align-items-start '>
         <div className = 'row'>
           <div className='col-lg-3'>
@@ -42,17 +101,21 @@ const MovieDetails = (props) => {
             />
           </div>
           <div className='col-lg-9'>
-            <h2>{movie.title} ({movie.release_date})</h2>
-            <h4>{movie.vote_average} - {movie.release_date} - **Fix Genres** - {movie.runtime}</h4>
-            <h6>user score</h6>
+            <h2>{movie.title} ({formatDate(movie.release_date, 'y')})</h2>
+            <h4>&#8226; {formatDate(movie.release_date, 'PPP')} &#8226; { formatTime(movie.runtime) }</h4>
+            <h6>
+              <i>
+                {showGenre(movie.genres)}
+              </i>
+            </h6>
+            <div className = 'container'>
+              { pieChartProgress(movie.vote_average * 10)}
+            </div>
             <div className = ''>
               <h3>Overview</h3>
               <p>{movie.overview}</p>
               <hr></hr>
-              <button
-                type='button'
-                className='btn btn-outline-success btn-lg'
-              >
+              <button type='button' className = 'btn btn-success'>
                 <a rel = 'noreferrer' target = '_blank' href = {`${BASE_URL_MOVIE}${movie.id}`}>
                   Watch Here
                 </a>
@@ -68,7 +131,17 @@ const MovieDetails = (props) => {
               <h3>Trailer</h3>
               <div>
                 <ReactPlayer
-                  url = {`${BASE_URL_TRAILER}${movie.videos.results[0].key}`}
+                  url = {manageTrailer(movie)}
+                  width = '100%'
+                  config={{
+                    youtube: {
+                      playerVars: {
+                        showinfo: 1,
+                        origin: 'http://localhost:3000'
+                      }
+                    }
+
+                  }}
                 />
               </div>
             </div>
@@ -76,10 +149,10 @@ const MovieDetails = (props) => {
         </div>
       </div>
       <div className='container'>
-          carousel was here
+
           <div className='row'>
             <div className='col-lg-3'>
-              side menu was here
+
             </div>
             <div className='col-lg-9'>
               <h1>Similar Movies</h1>

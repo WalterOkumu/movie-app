@@ -1,7 +1,5 @@
 import App from 'next/app'
 import { useEffect } from "react"
-import Head from 'next/head'
-import Script from 'next/script'
 
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -16,13 +14,7 @@ const MovieApp = ({ Component, pageProps }) => {
 
   return (
     <div>
-      <Head>
-        <title>Home</title>
-
-      </Head>
-
       <Navbar />
-
       <div className = 'base-page'>
         <Component {...pageProps} />
       </div>

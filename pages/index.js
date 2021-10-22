@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import Head from 'next/head'
 //import Components
 import SideMenu from '../components/SideMenu'
 import Carousel from '../components/Carousel'
@@ -31,6 +31,9 @@ const Home = (props) => {
 
   return (
     <div>
+      <Head>
+        <title>McStreamy</title>
+      </Head>
       <div className = 'home-page'>
         <div className='container'>
           <Carousel media = {combinedMedia}/>

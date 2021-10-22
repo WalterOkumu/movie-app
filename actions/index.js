@@ -51,12 +51,18 @@ export const getMovieById = (id) => {
 export const getTVShowById = (id) => {
     return axios.get(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&append_to_response=videos`)
                 .then(response => response.data)
-                .then(response => response.results)
                 .catch(error => console.log(error))
 }
 
 export const getSimilarMovieById = (id) => {
     return axios.get(`${BASE_URL}/movie/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`)
+                .then(response => response.data)
+                .then(response => response.results)
+                .catch(error => console.log(error))
+}
+
+export const getSimilarTVShowById = (id) => {
+    return axios.get(`${BASE_URL}/tv/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`)
                 .then(response => response.data)
                 .then(response => response.results)
                 .catch(error => console.log(error))

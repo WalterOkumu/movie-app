@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Head from 'next/head'
 import axios from 'axios'
 
 // functional component
@@ -24,6 +25,9 @@ const About = (props) => {
     console.log(getCategories().then(res => res))
     return (
         <div>
+            <Head>
+                <title>About Us</title>
+            </Head>
             <h1>About Page</h1>
             <div>
                 <ul>

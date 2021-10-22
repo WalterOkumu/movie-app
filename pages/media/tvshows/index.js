@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Head from 'next/head'
 //import Components
 import SideMenu from '../../../components/SideMenu'
 import Carousel from '../../../components/Carousel'
@@ -30,6 +31,9 @@ const TVShows = (props) => {
 
   return (
     <div>
+      <Head>
+        <title>TV Shows</title>
+      </Head>
       <div className = 'home-page'>
         <div className='container'>
           <Carousel media = {popularTVShows}/>
@@ -60,7 +64,7 @@ const TVShows = (props) => {
   )
 }
 
-TVShows.getInitialProps = async () => {
+TVShows.getInitialProps = async (context) => {
 
   const tvShowGenres = await getTVShowGenres()
 
