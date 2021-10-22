@@ -7,7 +7,7 @@ import { BASE_URL_IMAGE } from '../actions'
 
 const MediaList = (props) => {
 
-    const { media, genres } = props
+    const { media, genres, parent } = props
 
     const shorten = (text, maxLength) => {
         if (text && text.length > maxLength) {
@@ -35,21 +35,21 @@ const MediaList = (props) => {
         return genre.trim()
     }
 
-    const identifyMedia = (movie) => {
-
-        if (movie.media_type === 'movie') {
-            return 'movies'
-        }
-        else if (movie.media_type === 'tv') {
-            return 'tvshows'
+    const identifyMedia = (parent) => {
+        if (parent === 'homeComponent') {
+            return '/media/movies'
+        } else if (parent === 'moviesComponent' || parent === 'movieDetailsComponent') {
+            return '/media/movies'
+        } else if (parent === 'tvshowsComponent') {
+            return '/media/tvshows'
         }
     }
-    //console.log(props)
+
     const renderMovies = (media) => {
         return media.map(mediaItem => (
             <div key = {mediaItem.id} className='col-lg-4 col-md-6 mb-4'>
                 <div className='card h-100'>
-                    <a href = {`/${identifyMedia(mediaItem)}/${mediaItem.id}`} >
+                    <a href = {`${identifyMedia(parent)}/${mediaItem.id}`} >
                         <img
                             className='card-img-top'
                             src={`${BASE_URL_IMAGE}/${mediaItem.poster_path}`}
@@ -57,7 +57,7 @@ const MediaList = (props) => {
                         />
                     </a>
                     <div className='card-body'>
-                        <a href = {`/${identifyMedia(mediaItem)}/${mediaItem.id}`} >
+                        <a href = {`${identifyMedia(parent)}/${mediaItem.id}`} >
                         <h4 className='card-title'>
                             {mediaItem.title || mediaItem.name}
                         </h4>
@@ -71,11 +71,6 @@ const MediaList = (props) => {
                                 {showGenre(mediaItem.genre_ids)}
                             </i>
                         </h6>
-                        <h7>
-                            <i>
-                                {mediaItem.media_type}
-                            </i>
-                        </h7>
                         <p className='card-text'>{shorten(mediaItem.overview, 100)}</p>
                     </div>
                     <div className='card-footer'>
@@ -92,6 +87,10 @@ const MediaList = (props) => {
             {renderMovies(media)}
         </React.Fragment>
     )
+}
+
+MediaList.getInitialProps = context => {
+    return context
 }
 
 export default MediaList

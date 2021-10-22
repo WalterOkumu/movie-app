@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 //import Components
-import SideMenu from '../components/SideMenu'
-import Carousel from '../components/Carousel'
-import MediaList from '../components/MediaList'
+import SideMenu from '../../../components/SideMenu'
+import Carousel from '../../../components/Carousel'
+import MediaList from '../../../components/MediaList'
 
 //import data
-import { getPopularTVShows, getTVShowGenres } from '../actions'
+import { getMovieGenres, getPopularMovies } from '../../../actions/index'
 
-const TVShows = (props) => {
+const Movies = (props) => {
 
-  const { tvShowGenres, popularTVShows } = props
+  const { movieGenres, popularMovies } = props
 
   const [filter, setFilter] = useState('All')
 
@@ -32,23 +32,24 @@ const TVShows = (props) => {
     <div>
       <div className = 'home-page'>
         <div className='container'>
-          <Carousel media = {popularTVShows}/>
+          <Carousel media = {popularMovies}/>
           <div className='row'>
             <div className='col-lg-3'>
               <SideMenu
                 mediaType = ''
-                genres = {popularTVShows}
+                genres = {movieGenres}
                 changeGenre = {changeGenre}
                 activeGenre = {filter}
               />
             </div>
 
             <div className='col-lg-9'>
-              <h1>Displaying {filter} TV Shows</h1>
+              <h1>Displaying {filter} Movies</h1>
               <div className='row'>
                 <MediaList
-                  media = { filterMovies(popularTVShows) || [] }
-                  genres = {tvShowGenres}
+                  media = { filterMovies(popularMovies) || [] }
+                  genres = {movieGenres}
+                  parent = 'moviesComponent'
                 />
               </div>
             </div>
@@ -59,22 +60,22 @@ const TVShows = (props) => {
   )
 }
 
-TVShows.getInitialProps = async () => {
+Movies.getInitialProps = async (context) => {
 
-  const tvShowGenres = await getTVShowGenres()
+  const movieGenres = await getMovieGenres()
 
-  const popularTVShows = await getPopularTVShows(1)
+  const popularMovies = await getPopularMovies(1)
 
   let temp = {
     id: 1,
     name: 'All'
   }
 
-  tvShowGenres.unshift(temp)
+  movieGenres.unshift(temp)
 
   return {
-    tvShowGenres,
-    popularTVShows
+    movieGenres,
+    popularMovies
   }
 }
-export default TVShows
+export default Movies

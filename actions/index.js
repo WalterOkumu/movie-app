@@ -5,6 +5,7 @@ export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export const BASE_URL_TRENDING = process.env.NEXT_PUBLIC_BASE_URL_TRENDING
 export const BASE_URL_IMAGE = process.env.NEXT_PUBLIC_BASE_URL_IMAGE
 export const BASE_URL_MOVIE = process.env.NEXT_PUBLIC_BASE_URL_MOVIE
+export const BASE_URL_TRAILER = process.env.NEXT_PUBLIC_BASE_URL_TRAILER
 
 export const getMedia = () => {
     return axios.get(`${BASE_URL_TRENDING}/all/day?api_key=${API_KEY}`)
@@ -42,14 +43,20 @@ export const getPopularTVShows = (pageNumber) => {
 }
 
 export const getMovieById = (id) => {
-    return axios.get(`${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=en-US`)
+    return axios.get(`${BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`)
+                .then(response => response.data)
+                .catch(error => console.log(error))
+}
+
+export const getTVShowById = (id) => {
+    return axios.get(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&append_to_response=videos`)
                 .then(response => response.data)
                 .then(response => response.results)
                 .catch(error => console.log(error))
 }
 
-export const getTVShowById = (id) => {
-    return axios.get(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=en-US`)
+export const getSimilarMovieById = (id) => {
+    return axios.get(`${BASE_URL}/movie/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`)
                 .then(response => response.data)
                 .then(response => response.results)
                 .catch(error => console.log(error))

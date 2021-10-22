@@ -15,11 +15,11 @@ const Navbar = () => {
                         </li>
 
                         <li className='nav-item'>
-                        <a className='nav-link active' aria-current='page' href='/movies'>Movies</a>
+                        <a className='nav-link active' aria-current='page' href='/media/movies'>Movies</a>
                         </li>
 
                         <li className='nav-item'>
-                        <a className='nav-link active' aria-current='page' href='/tvshows'>TV Shows</a>
+                        <a className='nav-link active' aria-current='page' href='/media/tvshows'>TV Shows</a>
                         </li>
 
                         <li className='nav-item dropdown'>

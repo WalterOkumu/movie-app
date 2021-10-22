@@ -50,6 +50,7 @@ const Home = (props) => {
                 <MediaList
                   media = { filterMovies(combinedMedia) || [] }
                   genres = {movieGenres}
+                  parent = 'homeComponent'
                 />
               </div>
             </div>
@@ -60,7 +61,7 @@ const Home = (props) => {
   )
 }
 
-Home.getInitialProps = async () => {
+Home.getInitialProps = async (context) => {
 
   const combinedMedia = await getMedia()
 
