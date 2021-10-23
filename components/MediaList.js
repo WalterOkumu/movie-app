@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/link-passhref */
-/* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import { BASE_URL_IMAGE } from '../actions'
 
